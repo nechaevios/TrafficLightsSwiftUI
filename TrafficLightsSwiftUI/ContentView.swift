@@ -23,51 +23,56 @@ struct ContentView: View {
     
     @State private var buttonText = "START"
     
+    private var NextButton: some View {
+        ButtonView(buttonText: buttonText, backgroundColor: .blue) {
+            if buttonText == "START" {
+                buttonText = "NEXT"
+            }
+            
+            switch currentLight {
+            case .red:
+                redLightOpacity = lightIsOn
+                yellowLightOpacity = lightIsOff
+                greenLightOpacity = lightIsOff
+                currentLight = .yellow
+            case .yellow:
+                redLightOpacity = lightIsOff
+                yellowLightOpacity = lightIsOn
+                greenLightOpacity = lightIsOff
+                currentLight = .green
+            case .green:
+                redLightOpacity = lightIsOff
+                yellowLightOpacity = lightIsOff
+                greenLightOpacity = lightIsOn
+                currentLight = .red
+            }
+        }
+    }
+    
+    private var trafficLights: some View {
+        VStack {
+            ColorCircleView(color: .red, opacity: redLightOpacity)
+                .padding(.bottom)
+            ColorCircleView(color: .yellow, opacity: yellowLightOpacity)
+                .padding(.bottom)
+            ColorCircleView(color: .green, opacity: greenLightOpacity)
+                .padding(.bottom)
+            Spacer()
+            NextButton
+        }
+    }
+    
     var body: some View {
         ZStack {
             Color(.black)
                 .ignoresSafeArea()
-            VStack {
-                ColorCircleView(color: .red, opacity: redLightOpacity)
-                    .padding(.bottom)
-                ColorCircleView(color: .yellow, opacity: yellowLightOpacity)
-                    .padding(.bottom)
-                ColorCircleView(color: .green, opacity: greenLightOpacity)
-                    .padding(.bottom)
-                
-                Spacer()
-                
-                Button(action: {
-                    if buttonText == "START" {
-                        buttonText = "NEXT"
-                    }
-                    switch currentLight {
-                    case .red:
-                        redLightOpacity = lightIsOn
-                        yellowLightOpacity = lightIsOff
-                        greenLightOpacity = lightIsOff
-                        currentLight = .yellow
-                    case .yellow:
-                        redLightOpacity = lightIsOff
-                        yellowLightOpacity = lightIsOn
-                        greenLightOpacity = lightIsOff
-                        currentLight = .green
-                    case .green:
-                        redLightOpacity = lightIsOff
-                        yellowLightOpacity = lightIsOff
-                        greenLightOpacity = lightIsOn
-                        currentLight = .red
-                    }
-                }) {
-                    Text(buttonText)
-                        .font(.title)
-                }
-            }
+            trafficLights
             .padding()
         }
     }
     
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
