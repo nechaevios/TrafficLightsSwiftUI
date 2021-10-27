@@ -18,12 +18,12 @@ struct ButtonView: View {
         } label: {
             Text(buttonText)
         }
-        .frame(width: 110, height: 60)
+        .frame(width: 170, height: 50)
         .foregroundColor(.white)
         .background(backgroundColor)
         .font(.title)
-        .cornerRadius(8)
-        .overlay(RoundedRectangle(cornerRadius: 8)
+        .cornerRadius(16)
+        .overlay(RoundedRectangle(cornerRadius: 16)
                     .stroke(Color.white, lineWidth: 3)
         )
         
