@@ -23,29 +23,9 @@ struct ContentView: View {
     
     @State private var buttonText = "START"
     
-    private var NextButton: some View {
+    private var nextButton: some View {
         ButtonView(buttonText: buttonText, backgroundColor: .blue) {
-            if buttonText == "START" {
-                buttonText = "NEXT"
-            }
-            
-            switch currentLight {
-            case .red:
-                redLightOpacity = lightIsOn
-                yellowLightOpacity = lightIsOff
-                greenLightOpacity = lightIsOff
-                currentLight = .yellow
-            case .yellow:
-                redLightOpacity = lightIsOff
-                yellowLightOpacity = lightIsOn
-                greenLightOpacity = lightIsOff
-                currentLight = .green
-            case .green:
-                redLightOpacity = lightIsOff
-                yellowLightOpacity = lightIsOff
-                greenLightOpacity = lightIsOn
-                currentLight = .red
-            }
+            changeLight()
         }
     }
     
@@ -58,7 +38,7 @@ struct ContentView: View {
             ColorCircleView(color: .green, opacity: greenLightOpacity)
                 .padding(.bottom)
             Spacer()
-            NextButton
+            nextButton
         }
     }
     
@@ -68,6 +48,30 @@ struct ContentView: View {
                 .ignoresSafeArea()
             trafficLights
             .padding()
+        }
+    }
+    
+    private func changeLight() -> Void {
+        if buttonText == "START" {
+            buttonText = "NEXT"
+        }
+        
+        switch currentLight {
+        case .red:
+            redLightOpacity = lightIsOn
+            yellowLightOpacity = lightIsOff
+            greenLightOpacity = lightIsOff
+            currentLight = .yellow
+        case .yellow:
+            redLightOpacity = lightIsOff
+            yellowLightOpacity = lightIsOn
+            greenLightOpacity = lightIsOff
+            currentLight = .green
+        case .green:
+            redLightOpacity = lightIsOff
+            yellowLightOpacity = lightIsOff
+            greenLightOpacity = lightIsOn
+            currentLight = .red
         }
     }
     
