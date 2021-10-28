@@ -13,9 +13,7 @@ struct ButtonView: View {
     let closure: () -> Void
     
     var body: some View {
-        Button {
-            closure()
-        } label: {
+        Button(action: closure) {
             Text(buttonText)
         }
         .frame(width: 170, height: 50)
@@ -26,7 +24,6 @@ struct ButtonView: View {
         .overlay(RoundedRectangle(cornerRadius: 16)
                     .stroke(Color.white, lineWidth: 3)
         )
-        
         
     }
 }
