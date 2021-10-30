@@ -8,75 +8,51 @@
 import SwiftUI
 
 enum CurrentLight {
-    case red, yellow, green
+    case red, yellow, green, start
 }
 
 struct ContentView: View {
-    private let lightIsOn = 1.0
-    private let lightIsOff = 0.3
     
-    @State private var currentLight = CurrentLight.red
-    
-    @State private var redLightOpacity = 0.3
-    @State private var yellowLightOpacity = 0.3
-    @State private var greenLightOpacity = 0.3
-    
+    @State private var currentLight = CurrentLight.start
     @State private var buttonText = "START"
     
-    private var nextButton: some View {
-        ButtonView(buttonText: buttonText, backgroundColor: .blue) {
-            changeLight()
+    private func changeLight() -> Void {
+        switch currentLight {
+        case .start: currentLight = .red
+        case .red: currentLight = .yellow
+        case .yellow: currentLight = .green
+        case .green: currentLight = .red
         }
     }
     
-    private var trafficLights: some View {
-        VStack {
-            ColorCircleView(color: .red, opacity: redLightOpacity)
-                .padding(.bottom)
-            ColorCircleView(color: .yellow, opacity: yellowLightOpacity)
-                .padding(.bottom)
-            ColorCircleView(color: .green, opacity: greenLightOpacity)
-                .padding(.bottom)
-            Spacer()
-            nextButton
-        }
-    }
     
     var body: some View {
         ZStack {
             Color(.black)
                 .ignoresSafeArea()
-            trafficLights
+            
+            VStack(spacing: 20) {
+                
+                ColorCircleView(color: .red, opacity: currentLight == .red ? 1 : 0.3)
+                ColorCircleView(color: .yellow, opacity: currentLight == .yellow ? 1 : 0.3)
+                ColorCircleView(color: .green, opacity: currentLight == .green ? 1 : 0.3)
+                
+                Spacer()
+                
+                ButtonView(buttonText: buttonText, backgroundColor: .blue) {
+                    if buttonText == "START" {
+                        buttonText = "NEXT"
+                    }
+                    changeLight()
+                }
+                
+            }
             .padding()
-        }
-    }
-    
-    private func changeLight() -> Void {
-        if buttonText == "START" {
-            buttonText = "NEXT"
-        }
-        
-        switch currentLight {
-        case .red:
-            redLightOpacity = lightIsOn
-            yellowLightOpacity = lightIsOff
-            greenLightOpacity = lightIsOff
-            currentLight = .yellow
-        case .yellow:
-            redLightOpacity = lightIsOff
-            yellowLightOpacity = lightIsOn
-            greenLightOpacity = lightIsOff
-            currentLight = .green
-        case .green:
-            redLightOpacity = lightIsOff
-            yellowLightOpacity = lightIsOff
-            greenLightOpacity = lightIsOn
-            currentLight = .red
+           
         }
     }
     
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
